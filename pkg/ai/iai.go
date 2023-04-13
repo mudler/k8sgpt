@@ -5,7 +5,7 @@ import (
 )
 
 type IAI interface {
-	Configure(token string, model string, language string) error
+	Configure(token string, model string, language string, baseURL string) error
 	GetCompletion(ctx context.Context, prompt string) (string, error)
 	Parse(ctx context.Context, prompt []string, nocache bool) (string, error)
 	GetName() string
@@ -30,4 +30,5 @@ type AIProvider struct {
 	Name     string `mapstructure:"name"`
 	Model    string `mapstructure:"model"`
 	Password string `mapstructure:"password"`
+	BaseURL  string `mapstructure:"base_url"`
 }

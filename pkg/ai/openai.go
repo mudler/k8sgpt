@@ -5,8 +5,9 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/k8sgpt-ai/k8sgpt/pkg/util"
 	"strings"
+
+	"github.com/k8sgpt-ai/k8sgpt/pkg/util"
 
 	"github.com/fatih/color"
 	"github.com/spf13/viper"
@@ -27,8 +28,12 @@ type OpenAIClient struct {
 	model    string
 }
 
-func (c *OpenAIClient) Configure(token string, model string, language string) error {
-	client := openai.NewClient(token)
+func (c *OpenAIClient) Configure(token string, model string, language string, baseURL string) error {
+	config := openai.DefaultConfig(token)
+	if baseURL != "" {
+		config.BaseURL = baseURL
+	}
+	client := openai.NewClientWithConfig(config)
 	if client == nil {
 		return errors.New("error creating OpenAI client")
 	}
