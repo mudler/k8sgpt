@@ -269,6 +269,58 @@ The Kubernetes system is trying to scale a StatefulSet named fake-deployment usi
 
 </details>
 
+## Running local models
+
+To run local models, it is possible to use OpenAI compatible APIs, for instance [llama-cli](https://github.com/go-skynet/llama-cli) which uses [llama.cpp](https://github.com/ggerganov/llama.cpp) to run inference on consumer-grade hardware. Models supported by `llama.cpp` for instance are Vicuna, Alpaca, LLaMA, and koala. 
+
+To run local inference, you need to downlooad the models first, for instance you can find `ggml` compatible models in [huggingface.com](https://huggingface.co/models?search=ggml).
+
+### Start the API server
+
+To start the API server, follow the instruction in [llama-cli](https://github.com/go-skynet/llama-cli#usage):
+
+```
+git clone https://github.com/go-skynet/llama-cli
+
+cd llama-cli
+
+# copy your models to models/
+cp your-model.bin models/
+
+# (optional) Edit the .env file to set the number of concurrent threads used for inference
+# echo "THREADS=14" > .env
+
+# start with docker-compose
+docker compose up -d --build
+
+# Check that the API is accessible at localhost:8080
+curl http://localhost:8080/v1/models
+# {"object":"list","data":[{"id":"your-model.bin","object":"model"}]}
+```
+
+In order to use a local model, you might probably need to set a prompt template. This depends on the model being used. Create a file next your model ending by `.tmpl`, for instance the Alpaca prompt template looks like this:
+
+```
+Below is an instruction that describes a task. Write a response that appropriately completes the request.
+
+### Instruction:
+{{.Input}}
+
+### Response:
+```
+
+### Run k8sgpt
+
+To run k8sgpt follow the standard setup instructions, edit then the generated config with the model name you want to use and the API endpoint, like this:
+
+```yaml
+ai:
+    providers:
+        - base_url: http://localhost:8080/v1
+          model: your-model
+          name: openai
+```
+
 ## Upcoming major milestones
 
 - [ ] Multiple AI backend support
