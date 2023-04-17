@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -57,7 +58,7 @@ var AuthCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if password == "" {
+		if password == "" && backend != "llama" {
 			fmt.Printf("Enter %s Key: ", backend)
 			bytePassword, err := term.ReadPassword(int(syscall.Stdin))
 			if err != nil {
@@ -68,11 +69,20 @@ var AuthCmd = &cobra.Command{
 			password = strings.TrimSpace(string(bytePassword))
 		}
 
+		baseURL := ""
+		if backend == "llama" {
+			fmt.Printf("Enter %s API Base URL (e.g. `http://localhost:8080/v1`): ", backend)
+			scanner := bufio.NewScanner(os.Stdin)
+			scanner.Scan()
+			baseURL = scanner.Text()
+		}
+
 		// create new provider object
 		newProvider := ai.AIProvider{
 			Name:     backend,
 			Model:    model,
 			Password: password,
+			BaseURL:  baseURL,
 		}
 
 		if providerIndex == -1 {
