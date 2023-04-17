@@ -271,11 +271,11 @@ The Kubernetes system is trying to scale a StatefulSet named fake-deployment usi
 
 ## Running local models
 
-To run local models, it is possible to use OpenAI compatible APIs, for instance [llama-cli](https://github.com/go-skynet/llama-cli) which uses [llama.cpp](https://github.com/ggerganov/llama.cpp) to run inference on consumer-grade hardware. Models supported by `llama.cpp` for instance are Vicuna, Alpaca, LLaMA, and koala. 
+To run local models, it is possible to use OpenAI compatible APIs, for instance [llama-cli](https://github.com/go-skynet/llama-cli) which uses [llama.cpp](https://github.com/ggerganov/llama.cpp) to run inference on consumer-grade hardware. Models supported by `llama.cpp` for instance are Vicuna, Alpaca, LLaMA, GPT4ALL and koala. 
 
 <details>
 
-To run local inference, you need to downlooad the models first, for instance you can find `ggml` compatible models in [huggingface.com](https://huggingface.co/models?search=ggml).
+To run local inference, you need to download the models first, for instance you can find `ggml` compatible models in [huggingface.com](https://huggingface.co/models?search=ggml).
 
 ### Start the API server
 
