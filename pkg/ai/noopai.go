@@ -35,7 +35,7 @@ func (a *NoOpAIClient) Parse(ctx context.Context, prompt []string, nocache bool)
 	inputKey := strings.Join(prompt, " ")
 	// Check for cached data
 	sEnc := base64.StdEncoding.EncodeToString([]byte(inputKey))
-	cacheKey := util.GetCacheKey(a.GetName(), sEnc)
+	cacheKey := util.GetCacheKey(a.GetName(), a.language, sEnc)
 
 	response, err := a.GetCompletion(ctx, inputKey)
 	if err != nil {

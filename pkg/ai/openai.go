@@ -64,7 +64,7 @@ func (a *OpenAIClient) Parse(ctx context.Context, prompt []string, nocache bool)
 	inputKey := strings.Join(prompt, " ")
 	// Check for cached data
 	sEnc := base64.StdEncoding.EncodeToString([]byte(inputKey))
-	cacheKey := util.GetCacheKey(a.GetName(), sEnc)
+	cacheKey := util.GetCacheKey(a.GetName(), a.language, sEnc)
 	// find in viper cache
 	if viper.IsSet(cacheKey) && !nocache {
 		// retrieve data from cache
