@@ -13,7 +13,6 @@ import (
 var (
 	port    string
 	backend string
-	token   string
 )
 
 var ServeCmd = &cobra.Command{
@@ -32,15 +31,17 @@ var ServeCmd = &cobra.Command{
 		if len(configAI.Providers) == 0 {
 			// Check for env injection
 			backend = os.Getenv("K8SGPT_BACKEND")
+			baseurl := os.Getenv("K8SGPT_BACKEND_BASEURL")
 			password := os.Getenv("K8SGPT_PASSWORD")
 			model := os.Getenv("K8SGPT_MODEL")
 			// If the envs are set, alocate in place to the aiProvider
 			// else exit with error
-			if backend != "" || password != "" || model != "" {
+			if backend != "" || baseurl != "" || password != "" || model != "" {
 				aiProvider = &ai.AIProvider{
 					Name:     backend,
 					Password: password,
 					Model:    model,
+					BaseURL:  baseurl,
 				}
 
 				configAI.Providers = append(configAI.Providers, *aiProvider)

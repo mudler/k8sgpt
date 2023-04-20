@@ -35,6 +35,8 @@ spec:
           value: "gpt-3.5-turbo"
         - name: K8SGPT_BACKEND
           value: "openai"
+        - name: K8SGPT_BACKEND_BASEURL
+          value: ""
         - name: K8SGPT_PASSWORD
           valueFrom:
             secretKeyRef:
